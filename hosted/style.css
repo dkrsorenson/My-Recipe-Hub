@@ -1,0 +1,255 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+#logo {
+    height: 100px;
+    width: 100px;
+    padding-top: 5px;
+    float:center;
+    border-radius: 8px;
+}
+
+.recipeForm input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+  
+.recipeForm input[type=submit] {
+    width: 100%;
+    background-color: rgb(175, 175, 175);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+.recipeForm input[type=submit]:hover {
+    background-color: #69b6e9;
+}
+  
+.recipeForm {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+#deleteRecipe input[type=submit] {
+    width: 100%;
+    background-color: rgb(175, 175, 175);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#deleteRecipe input[type=submit]:hover {
+    background-color: #69b6e9;
+}
+
+.mainForm input[type=text], input[type=password], select {
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+  
+.mainForm input[type=submit] {
+    width: 100%;
+    background-color: rgb(175, 175, 175);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+.mainForm input[type=submit]:hover {
+    background-color: #69b6e9;
+}
+  
+.mainForm {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    height: fit-content;
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 1.2em;
+}
+
+.recipe {
+    font-size: 1.0em;
+    background-color: #d4dde4;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 800px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.recipe label {
+    white-space: pre-line;
+}
+
+#recipeIngredients, #recipeInstructions {
+    height: 200px;
+    width: 100%;
+}
+
+.recipeDelete {
+    float: right;
+    width: 30px;
+    height: 33px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.recipeEdit {
+    float: right;
+    width: 30px;
+    height: 33px;
+    position: absolute;
+    top: 60px;
+    right: 12.5px;
+}
+
+
+.formSubmit {
+    transition: background-color 0.4s ease;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 14px;
+    font-size: 1.2em;
+    width: 100px;
+    background-color: #55acee;
+    border-radius: 2px;
+    border-color: #66acee;
+    padding: 3px 0px;
+    color: white;
+    text-decoration: none;
+}
+
+.formSubmit:link, .formSubmit:visited, .formSubmit:hover, .formSubmit:active {
+    color: white;
+}
+
+.formSubmit:hover {
+    transition: background-color 0.4s ease;
+    background-color: #338acc;
+}
+
+#user, #pass, #pass2, #currentPass, #newPass1, #newPass2 {
+    text-align: center;
+    font-size: 1.1em;
+    width: 225px;
+    border-radius: 6px;
+}
+
+#user:focus, #pass:focus, #pass2:focus, #currentPass:focus, #newPass1:focus, #newPass2:focus {
+    outline: none;
+    box-shadow: 0px 0px 1px 1px #55acee;
+}
+
+#errorMessage {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: red;
+    font-style: italic;
+}
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #d3e9ee;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+  
+.sidebar a {
+    transition: background-color 0.4s ease;
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+   
+.sidebar a:active {
+    background-color: #55acee;
+    color: white;
+}
+   
+.sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+  
+#content {
+    margin-left: 250px;
+    padding: 0px 10px;
+    height: 1000px;
+    margin-top: 50px;
+    font-size: 1.0em;
+}
+  
+@media screen and (max-width: 700px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .sidebar a {float: left;}
+    div.content {margin-left: 0;}
+}
+  
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
+
+.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    display: none;
+}
+
+.failure {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    display: none;
+}
+
+.alert-box {
+	padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;  
+}

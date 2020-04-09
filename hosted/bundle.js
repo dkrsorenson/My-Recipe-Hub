@@ -2,7 +2,7 @@
 
 var handleRecipe = function handleRecipe(e) {
   e.preventDefault();
-  $("#message").animate({
+  $("#errorMessageBox").animate({
     width: 'hide'
   }, 350);
 
@@ -82,7 +82,7 @@ var RecipeForm = function RecipeForm(props) {
 
 var handleDelete = function handleDelete(e, id, csrf) {
   e.preventDefault();
-  $("#message").animate({
+  $("#errorMessageBox").animate({
     width: 'hide'
   }, 350);
   var data = {
@@ -96,7 +96,7 @@ var handleDelete = function handleDelete(e, id, csrf) {
 
 var handleRecipeEdit = function handleRecipeEdit(e, id, csrf) {
   e.preventDefault();
-  $("#message").animate({
+  $("#errorMessageBox").animate({
     width: 'hide'
   }, 350);
   var data = {
@@ -206,18 +206,16 @@ var createRecipeForm = function createRecipeForm(csrf) {
 
 var handlePassChange = function handlePassChange(e) {
   e.preventDefault();
+  $("#errorMessageBox").animate({
+    width: 'hide'
+  }, 350);
 
   if ($("#currentPass").val() == '' || $("#newPass1").val() == '' || $("#newPass2").val() == '') {
     handleError("All fields are required");
     return false;
   }
 
-  sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function () {
-    createSuccessMessage("Successfully updated");
-    $("#message").animate({
-      width: 'hide'
-    }, 350);
-  });
+  sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function () {});
 };
 
 var AccountForm = function AccountForm(props) {
@@ -270,32 +268,6 @@ var createAccountForm = function createAccountForm(csrf, account) {
   }), document.querySelector("#content"));
 };
 
-var ErrorMessage = function ErrorMessage(props) {
-  return (/*#__PURE__*/React.createElement("div", {
-      "class": "alert-box error"
-    }, /*#__PURE__*/React.createElement("h3", null, props.message))
-  );
-};
-
-var createErrorMessage = function createErrorMessage(message) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(ErrorMessage, {
-    message: message
-  }), document.querySelector("#message"));
-};
-
-var SuccessMessage = function SuccessMessage(props) {
-  return (/*#__PURE__*/React.createElement("div", {
-      "class": "alert-box success"
-    }, /*#__PURE__*/React.createElement("h3", null, props.message))
-  );
-};
-
-var createSuccessMessage = function createSuccessMessage(message) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(SuccessMessage, {
-    message: message
-  }), document.querySelector("#message"));
-};
-
 var setup = function setup(csrf) {
   var homeButton = document.querySelector("#homeButton");
   var recipeBookButton = document.querySelector("#recipeBookButton");
@@ -338,8 +310,8 @@ $(document).ready(function () {
 "use strict";
 
 var handleError = function handleError(message) {
-  createErrorMessage(message);
-  $("#message").animate({
+  $("#errorMessage").text(message);
+  $("#errorMessageBox").animate({
     width: 'toggle'
   }, 350);
   console.log(message);

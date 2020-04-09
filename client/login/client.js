@@ -1,6 +1,8 @@
 const handleLogin = (e) => {
     e.preventDefault();
 
+    $("#errorMessageBox").animate({ width:'hide' }, 350);
+
     if($("#user").val() == '' || $("#pass").val() == '') {
         handleError("Username or password is empty");
         return false;
@@ -14,6 +16,8 @@ const handleLogin = (e) => {
 const handleSignup = (e) => {
     e.preventDefault();
 
+    $("#errorMessageBox").animate({ width:'hide' }, 350);
+    
     if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
         handleError("All fields are required");
         return false;

@@ -86,36 +86,38 @@ const changePassword = (request, response) => {
   const currentPass = `${req.body.currentPass}`;
   const newPass1 = `${req.body.newPass1}`;
   const newPass2 = `${req.body.newPass2}`;
- 
+
   if (!currentPass || !newPass1 || !newPass2) {
     return res.status(400).json({ error: 'All fields are required' });
   }
- 
-  return Account.AccountModel.authenticate(req.session.account.username, currentPass, (err, account) => {
-    if (err || !account) {
-      return res.status(400).json({ error: 'Current password is incorrect' });
-    }
 
-    if(newPass1 !== newPass2){
-      return res.status(400).json({ error: 'New passwords do not match' });
-    }
+  return Account.AccountModel.authenticate(req.session.account.username, currentPass,
+    (err, account) => {
+      if (err || !account) {
+        return res.status(400).json({ error: 'Current password is incorrect' });
+      }
 
-    return Account.AccountModel.generateHash(newPass1, (salt, hash) => {
-      const accountData = {
-        salt,
-        password: hash,
-      };
-  
-      return Account.AccountModel.updatePasswordByID(req.session.account._id, accountData, (err2, doc) => {
-          if (err2 || !doc) {
-            return res.status(400).json({ error: 'An error occured' });
-          }
+      if (newPass1 !== newPass2) {
+        return res.status(400).json({ error: 'New passwords do not match' });
+      }
 
-          return res.status(204).json();
+      return Account.AccountModel.generateHash(newPass1, (salt, hash) => {
+        const accountData = {
+          salt,
+          password: hash,
+        };
+
+        return Account.AccountModel.updatePasswordByID(req.session.account._id, accountData,
+          (err2, doc) => {
+            if (err2 || !doc) {
+              return res.status(400).json({ error: 'An error occured' });
+            }
+
+            return res.status(204).json();
+          });
       });
     });
-  });
-}; 
+};
 
 const accountPage = (req, res) => {
   res.render('account', { csrfToken: req.csrfToken() });

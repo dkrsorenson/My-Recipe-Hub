@@ -2,6 +2,9 @@
 
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
+  $("#errorMessageBox").animate({
+    width: 'hide'
+  }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '') {
     handleError("Username or password is empty");
@@ -14,6 +17,9 @@ var handleLogin = function handleLogin(e) {
 
 var handleSignup = function handleSignup(e) {
   e.preventDefault();
+  $("#errorMessageBox").animate({
+    width: 'hide'
+  }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
     handleError("All fields are required");
@@ -144,8 +150,8 @@ $(document).ready(function () {
 "use strict";
 
 var handleError = function handleError(message) {
-  createErrorMessage(message);
-  $("#message").animate({
+  $("#errorMessage").text(message);
+  $("#errorMessageBox").animate({
     width: 'toggle'
   }, 350);
   console.log(message);

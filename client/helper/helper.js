@@ -1,6 +1,6 @@
 const handleError = (message) => {
-    createErrorMessage(message);
-    $("#message").animate({ width:'toggle' }, 350);
+    $("#errorMessage").text(message);
+    $("#errorMessageBox").animate({ width:'toggle' }, 350);
     console.log(message);
 };
 

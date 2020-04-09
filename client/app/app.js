@@ -1,7 +1,7 @@
 const handleRecipe = (e) => {
     e.preventDefault();
     
-    $("#message").animate({ width:'hide' }, 350);
+    $("#errorMessageBox").animate({ width:'hide' }, 350);
 
     if($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeIunstructions").val() == ''){
         handleError("All fields are required");
@@ -44,7 +44,7 @@ const RecipeForm = (props) => {
 const handleDelete = (e, id, csrf) => {
     e.preventDefault();
 
-    $("#message").animate({ width:'hide' },350);
+    $("#errorMessageBox").animate({ width:'hide' }, 350);
 
     const data = {
         _id: id,
@@ -59,7 +59,7 @@ const handleDelete = (e, id, csrf) => {
 const handleRecipeEdit = (e, id, csrf) => {
     e.preventDefault();
   
-    $("#message").animate({ width:'hide' },350);
+    $("#errorMessageBox").animate({ width:'hide' }, 350);
 
     const data = {
         _id: id,
@@ -139,14 +139,15 @@ const createRecipeForm = (csrf) => {
 const handlePassChange = (e) => {
     e.preventDefault();
 
+    $("#errorMessageBox").animate({ width:'hide' }, 350);
+
     if($("#currentPass").val() == '' || $("#newPass1").val() == '' || $("#newPass2").val() == ''){
         handleError("All fields are required");
         return false;
     }
 
     sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function() {
-        createSuccessMessage("Successfully updated")
-        $("#message").animate({ width:'hide' },350);
+
     });
 };
 
@@ -171,34 +172,6 @@ const AccountForm = (props) => {
 const createAccountForm = (csrf, account) => {
     ReactDOM.render(
         <AccountForm csrf={csrf} user={account} />, document.querySelector("#content")
-    );
-};
-
-const ErrorMessage = (props) => {
-    return(
-        <div class="alert-box error">
-            <h3>{props.message}</h3>
-        </div>
-    );
-};
-
-const createErrorMessage = (message) => {
-    ReactDOM.render(
-        <ErrorMessage message={message} />, document.querySelector("#message")
-    );
-};
-
-const SuccessMessage = (props) => {
-    return(
-        <div class="alert-box success">
-            <h3>{props.message}</h3>
-        </div>
-    );
-};
-
-const createSuccessMessage = (message) => {
-    ReactDOM.render(
-        <SuccessMessage message={message} />, document.querySelector("#message") 
     );
 };
 

@@ -87,7 +87,9 @@ AccountSchema.statics.updatePasswordByID = (id, accountData, callback) => {
     _id: id,
   };
 
-  return AccountModel.findOneAndUpdate(search, { salt: accountData.salt, password: accountData.password }, callback);
+  return AccountModel.findOneAndUpdate(
+    search, { salt: accountData.salt, password: accountData.password }, callback,
+  );
 };
 
 AccountModel = mongoose.model('Account', AccountSchema);

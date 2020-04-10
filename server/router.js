@@ -9,7 +9,6 @@ const router = (app) => {
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.post('/account', mid.requiresSecure, mid.requiresLogout, controllers.Account.accountPage);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
-  // app.get('/addRecipe', mid.requiresLogin, controllers.Recipe.addRecipePage);
   app.post('/addRecipe', mid.requiresLogin, controllers.Recipe.addRecipe);
   app.get('/recipeBook', mid.requiresLogin, controllers.Recipe.recipeBookPage);
   app.delete('/delete', mid.requiresLogin, controllers.Recipe.deleteRecipe);

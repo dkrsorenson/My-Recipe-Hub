@@ -2,9 +2,6 @@
 
 var handleRecipe = function handleRecipe(e) {
   e.preventDefault();
-  $("#errorMessageBox").animate({
-    width: 'hide'
-  }, 350);
 
   if ($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeIunstructions").val() == '') {
     handleError("All fields are required");
@@ -82,9 +79,6 @@ var RecipeForm = function RecipeForm(props) {
 
 var handleDelete = function handleDelete(e, id, csrf) {
   e.preventDefault();
-  $("#errorMessageBox").animate({
-    width: 'hide'
-  }, 350);
   var data = {
     _id: id,
     _csrf: csrf
@@ -96,9 +90,6 @@ var handleDelete = function handleDelete(e, id, csrf) {
 
 var handleRecipeEdit = function handleRecipeEdit(e, id, csrf) {
   e.preventDefault();
-  $("#errorMessageBox").animate({
-    width: 'hide'
-  }, 350);
   var data = {
     _id: id,
     _csrf: csrf
@@ -206,16 +197,20 @@ var createRecipeForm = function createRecipeForm(csrf) {
 
 var handlePassChange = function handlePassChange(e) {
   e.preventDefault();
-  $("#errorMessageBox").animate({
-    width: 'hide'
-  }, 350);
 
   if ($("#currentPass").val() == '' || $("#newPass1").val() == '' || $("#newPass2").val() == '') {
     handleError("All fields are required");
     return false;
   }
 
-  sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function () {});
+  if ($("#newPass1").val() !== $("#newPass2").val()) {
+    handleError("Passwords do not match");
+    return false;
+  }
+
+  sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function () {
+    handleSuccess('Successfully changed password!');
+  });
 };
 
 var AccountForm = function AccountForm(props) {
@@ -298,6 +293,26 @@ var setup = function setup(csrf) {
   createRecipeBook(csrf); // default view
 };
 
+var ErrorMessage = function ErrorMessage(props) {
+  return (/*#__PURE__*/React.createElement("div", {
+      id: "error",
+      className: "alert-box failure"
+    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
+      id: "errorMessage"
+    }, props.message)))
+  );
+};
+
+var SuccessMessage = function SuccessMessage(props) {
+  return (/*#__PURE__*/React.createElement("div", {
+      id: "success",
+      className: "alert-box success"
+    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
+      id: "successMessage"
+    }, props.message)))
+  );
+};
+
 var getToken = function getToken() {
   sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
@@ -309,11 +324,21 @@ $(document).ready(function () {
 });
 "use strict";
 
+// handle an error message pop up
 var handleError = function handleError(message) {
-  $("#errorMessage").text(message);
-  $("#errorMessageBox").animate({
-    width: 'toggle'
-  }, 350);
+  ReactDOM.render( /*#__PURE__*/React.createElement(ErrorMessage, {
+    message: message
+  }), document.querySelector("#message"));
+  $("div.failure").fadeIn(300).delay(1500).fadeOut(400);
+  console.log(message);
+}; // handle a success message pop up
+
+
+var handleSuccess = function handleSuccess(message) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(SuccessMessage, {
+    message: message
+  }), document.querySelector("#message"));
+  $("div.success").fadeIn(300).delay(1500).fadeOut(400);
   console.log(message);
 };
 

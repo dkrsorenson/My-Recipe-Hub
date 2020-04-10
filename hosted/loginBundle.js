@@ -149,11 +149,21 @@ $(document).ready(function () {
 });
 "use strict";
 
+// handle an error message pop up
 var handleError = function handleError(message) {
-  $("#errorMessage").text(message);
-  $("#errorMessageBox").animate({
-    width: 'toggle'
-  }, 350);
+  ReactDOM.render( /*#__PURE__*/React.createElement(ErrorMessage, {
+    message: message
+  }), document.querySelector("#message"));
+  $("div.failure").fadeIn(300).delay(1500).fadeOut(400);
+  console.log(message);
+}; // handle a success message pop up
+
+
+var handleSuccess = function handleSuccess(message) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(SuccessMessage, {
+    message: message
+  }), document.querySelector("#message"));
+  $("div.success").fadeIn(300).delay(1500).fadeOut(400);
   console.log(message);
 };
 

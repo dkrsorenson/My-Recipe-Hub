@@ -1,6 +1,22 @@
+// handle an error message pop up
 const handleError = (message) => {
-    $("#errorMessage").text(message);
-    $("#errorMessageBox").animate({ width:'toggle' }, 350);
+    ReactDOM.render(
+        <ErrorMessage message={message} />, document.querySelector("#message")
+    );
+
+    $( "div.failure" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+
+    console.log(message);
+};
+
+// handle a success message pop up
+const handleSuccess = (message) => {
+    ReactDOM.render(
+        <SuccessMessage message={message} />, document.querySelector("#message")
+    );
+
+    $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+
     console.log(message);
 };
 

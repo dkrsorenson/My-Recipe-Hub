@@ -1,7 +1,5 @@
 const handleRecipe = (e) => {
     e.preventDefault();
-    
-    $("#errorMessageBox").animate({ width:'hide' }, 350);
 
     if($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeIunstructions").val() == ''){
         handleError("All fields are required");
@@ -44,8 +42,6 @@ const RecipeForm = (props) => {
 const handleDelete = (e, id, csrf) => {
     e.preventDefault();
 
-    $("#errorMessageBox").animate({ width:'hide' }, 350);
-
     const data = {
         _id: id,
         _csrf: csrf,
@@ -59,8 +55,6 @@ const handleDelete = (e, id, csrf) => {
 const handleRecipeEdit = (e, id, csrf) => {
     e.preventDefault();
   
-    $("#errorMessageBox").animate({ width:'hide' }, 350);
-
     const data = {
         _id: id,
         _csrf: csrf,
@@ -139,15 +133,18 @@ const createRecipeForm = (csrf) => {
 const handlePassChange = (e) => {
     e.preventDefault();
 
-    $("#errorMessageBox").animate({ width:'hide' }, 350);
-
     if($("#currentPass").val() == '' || $("#newPass1").val() == '' || $("#newPass2").val() == ''){
         handleError("All fields are required");
         return false;
     }
 
-    sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function() {
+    if($("#newPass1").val() !== $("#newPass2").val()) {
+        handleError("Passwords do not match");
+        return false;
+    }
 
+    sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function() {
+        handleSuccess('Successfully changed password!');
     });
 };
 
@@ -208,6 +205,22 @@ const setup = function(csrf) {
     });
 
     createRecipeBook(csrf); // default view
+};
+
+const ErrorMessage = (props) => {
+    return(
+        <div id="error" className="alert-box failure">
+            <h3><span id="errorMessage">{props.message}</span></h3>
+        </div>
+    );
+};
+
+const SuccessMessage = (props) => {
+    return(
+        <div id="success" className="alert-box success">
+            <h3><span id="successMessage">{props.message}</span></h3>
+        </div>
+    );
 };
 
 const getToken = () => {

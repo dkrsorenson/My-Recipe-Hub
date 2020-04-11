@@ -167,6 +167,26 @@ var handleSuccess = function handleSuccess(message) {
   console.log(message);
 };
 
+var ErrorMessage = function ErrorMessage(props) {
+  return (/*#__PURE__*/React.createElement("div", {
+      id: "error",
+      className: "alert-box failure"
+    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
+      id: "errorMessage"
+    }, props.message)))
+  );
+};
+
+var SuccessMessage = function SuccessMessage(props) {
+  return (/*#__PURE__*/React.createElement("div", {
+      id: "success",
+      className: "alert-box success"
+    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
+      id: "successMessage"
+    }, props.message)))
+  );
+};
+
 var redirect = function redirect(response) {
   window.location = response.redirect;
 };

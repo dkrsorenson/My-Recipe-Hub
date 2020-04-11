@@ -293,26 +293,6 @@ var setup = function setup(csrf) {
   createRecipeBook(csrf); // default view
 };
 
-var ErrorMessage = function ErrorMessage(props) {
-  return (/*#__PURE__*/React.createElement("div", {
-      id: "error",
-      className: "alert-box failure"
-    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
-      id: "errorMessage"
-    }, props.message)))
-  );
-};
-
-var SuccessMessage = function SuccessMessage(props) {
-  return (/*#__PURE__*/React.createElement("div", {
-      id: "success",
-      className: "alert-box success"
-    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
-      id: "successMessage"
-    }, props.message)))
-  );
-};
-
 var getToken = function getToken() {
   sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
@@ -340,6 +320,26 @@ var handleSuccess = function handleSuccess(message) {
   }), document.querySelector("#message"));
   $("div.success").fadeIn(300).delay(1500).fadeOut(400);
   console.log(message);
+};
+
+var ErrorMessage = function ErrorMessage(props) {
+  return (/*#__PURE__*/React.createElement("div", {
+      id: "error",
+      className: "alert-box failure"
+    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
+      id: "errorMessage"
+    }, props.message)))
+  );
+};
+
+var SuccessMessage = function SuccessMessage(props) {
+  return (/*#__PURE__*/React.createElement("div", {
+      id: "success",
+      className: "alert-box success"
+    }, /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("span", {
+      id: "successMessage"
+    }, props.message)))
+  );
 };
 
 var redirect = function redirect(response) {

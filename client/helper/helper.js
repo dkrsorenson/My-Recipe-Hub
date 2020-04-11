@@ -20,6 +20,22 @@ const handleSuccess = (message) => {
     console.log(message);
 };
 
+const ErrorMessage = (props) => {
+    return(
+        <div id="error" className="alert-box failure">
+            <h3><span id="errorMessage">{props.message}</span></h3>
+        </div>
+    );
+};
+
+const SuccessMessage = (props) => {
+    return(
+        <div id="success" className="alert-box success">
+            <h3><span id="successMessage">{props.message}</span></h3>
+        </div>
+    );
+};
+
 const redirect = (response) => {
     window.location = response.redirect;
 };

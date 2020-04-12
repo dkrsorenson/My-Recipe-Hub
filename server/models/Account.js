@@ -81,7 +81,7 @@ AccountSchema.statics.authenticate = (username, password, callback) => {
   });
 };
 
-// update post using docID
+// handles updating password by ID
 AccountSchema.statics.updatePasswordByID = (id, accountData, callback) => {
   const search = {
     _id: id,

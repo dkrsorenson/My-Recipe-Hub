@@ -11,6 +11,7 @@ const logout = (req, res) => {
   res.redirect('/');
 };
 
+// handles logging in
 const login = (request, response) => {
   const req = request;
   const res = response;
@@ -34,6 +35,7 @@ const login = (request, response) => {
   });
 };
 
+// handles user sign up
 const signup = (request, response) => {
   const req = request;
   const res = response;
@@ -79,6 +81,7 @@ const signup = (request, response) => {
   });
 };
 
+// handles password changes
 const changePassword = (request, response) => {
   const req = request;
   const res = response;
@@ -119,10 +122,7 @@ const changePassword = (request, response) => {
     });
 };
 
-const accountPage = (req, res) => {
-  res.render('account', { csrfToken: req.csrfToken() });
-};
-
+// gets the user data based on the session
 const getUser = (request, response) => {
   const req = request;
   const res = response;
@@ -136,6 +136,7 @@ const getUser = (request, response) => {
   });
 };
 
+// gets the csrf token
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -148,7 +149,6 @@ const getToken = (request, response) => {
 };
 
 module.exports.loginPage = loginPage;
-module.exports.accountPage = accountPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;

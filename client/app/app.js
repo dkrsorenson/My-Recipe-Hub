@@ -1,3 +1,4 @@
+// handles creating a new recipe
 const handleRecipe = (e) => {
     e.preventDefault();
 
@@ -13,6 +14,67 @@ const handleRecipe = (e) => {
     return false;
 };
 
+// handles deleting a recipe
+const handleDelete = (e, id, csrf) => {
+    e.preventDefault();
+
+    const data = {
+        _id: id,
+        _csrf: csrf,
+    };
+
+    sendAjax('DELETE', $("#deleteRecipe").attr("action"), data, function(){
+        loadRecipesFromServer(csrf);
+    });
+};
+
+// handles an account password change
+const handlePassChange = (e) => {
+    e.preventDefault();
+
+    if($("#currentPass").val() == '' || $("#newPass1").val() == '' || $("#newPass2").val() == ''){
+        handleError("All fields are required");
+        return false;
+    }
+
+    if($("#newPass1").val() !== $("#newPass2").val()) {
+        handleError("Passwords do not match");
+        return false;
+    }
+
+    sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function() {
+        handleSuccess('Successfully changed password!');
+    });
+};
+
+// handles an edit / change to a recipe
+const handleEdit = (e, id, csrf) => {
+    e.preventDefault();
+
+    const data = {
+        _id: id,
+        _csrf: csrf,
+        recipe: {
+            title: $("#recipeTitle").val(),
+            type: $("#recipeType").val(),
+            ingredients: $("#recipeIngredients").val(),
+            instructions: $("#recipeInstructions").val(),
+        },
+    };
+
+    if($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeInstructions").val() == ''){
+        handleError("All fields are required");
+        return false;
+    }
+
+    sendAjax('PUT', $("#editRecipeForm").attr("action"), data, function() {
+        handleSuccess('Successfully updated recipe!');
+    });
+
+    return false;
+};
+
+// The form to add recipes
 const RecipeForm = (props) => {
     return (
         <form id="recipeForm" name="recipeForm" onSubmit={handleRecipe} action="/addRecipe" method="POST" className="recipeForm">
@@ -39,19 +101,7 @@ const RecipeForm = (props) => {
     );
 };
 
-const handleDelete = (e, id, csrf) => {
-    e.preventDefault();
-
-    const data = {
-        _id: id,
-        _csrf: csrf,
-    };
-
-    sendAjax('DELETE', $("#deleteRecipe").attr("action"), data, function(){
-        loadRecipesFromServer(csrf);
-    });
-};
-
+// The form to list recipes
 const RecipeList = function(props) {
     if(props.recipes.length === 0) {
         return (
@@ -90,32 +140,7 @@ const RecipeList = function(props) {
     );
 };
 
-const handleEdit = (e, id, csrf) => {
-    e.preventDefault();
-
-    const data = {
-        _id: id,
-        _csrf: csrf,
-        recipe: {
-            title: $("#recipeTitle").val(),
-            type: $("#recipeType").val(),
-            ingredients: $("#recipeIngredients").val(),
-            instructions: $("#recipeInstructions").val(),
-        },
-    };
-
-    if($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeInstructions").val() == ''){
-        handleError("All fields are required");
-        return false;
-    }
-
-    sendAjax('PUT', $("#editRecipeForm").attr("action"), data, function() {
-        handleSuccess('Successfully updated recipe!');
-    });
-
-    return false;
-};
-
+// the form to edit recipes
 const EditRecipeForm = (props) => {
     console.log(props.recipe);
     console.log(props.csrf);
@@ -144,52 +169,7 @@ const EditRecipeForm = (props) => {
     );
 };
 
-const createEditRecipeForm = (csrf, recipe) => {
-    ReactDOM.render(
-        <EditRecipeForm csrf={csrf} recipe={recipe} />, document.querySelector("#content")
-    );
-};
-
-const loadRecipesFromServer = (csrf) => {
-    sendAjax('GET', '/getRecipes', null, (data) => {
-        ReactDOM.render(
-            <RecipeList recipes={data.recipes} csrf={csrf} />, document.querySelector("#content")
-        );
-    });
-};
-
-const createRecipeBook = (csrf) => {
-    ReactDOM.render(
-        <RecipeList recipes={[]} csrf={csrf} />, document.querySelector("#content")
-    );
-
-    loadRecipesFromServer(csrf);
-};
-
-const createRecipeForm = (csrf) => {
-    ReactDOM.render(
-        <RecipeForm csrf={csrf} />, document.querySelector("#content")
-    );
-};
-
-const handlePassChange = (e) => {
-    e.preventDefault();
-
-    if($("#currentPass").val() == '' || $("#newPass1").val() == '' || $("#newPass2").val() == ''){
-        handleError("All fields are required");
-        return false;
-    }
-
-    if($("#newPass1").val() !== $("#newPass2").val()) {
-        handleError("Passwords do not match");
-        return false;
-    }
-
-    sendAjax('PUT', $("#accountForm").attr("action"), $("#accountForm").serialize(), function() {
-        handleSuccess('Successfully changed password!');
-    });
-};
-
+// the form to change the account password
 const AccountForm = (props) => {
     return(
         <div>
@@ -208,12 +188,46 @@ const AccountForm = (props) => {
     );
 };
 
+// creates the form to edit recipes
+const createEditRecipeForm = (csrf, recipe) => {
+    ReactDOM.render(
+        <EditRecipeForm csrf={csrf} recipe={recipe} />, document.querySelector("#content")
+    );
+};
+
+// loads all recipes to the recipe list
+const loadRecipesFromServer = (csrf) => {
+    sendAjax('GET', '/getRecipes', null, (data) => {
+        ReactDOM.render(
+            <RecipeList recipes={data.recipes} csrf={csrf} />, document.querySelector("#content")
+        );
+    });
+};
+
+// creates the recipe list 
+const createRecipeBook = (csrf) => {
+    ReactDOM.render(
+        <RecipeList recipes={[]} csrf={csrf} />, document.querySelector("#content")
+    );
+
+    loadRecipesFromServer(csrf);
+};
+
+// creates the form to add recipes
+const createRecipeForm = (csrf) => {
+    ReactDOM.render(
+        <RecipeForm csrf={csrf} />, document.querySelector("#content")
+    );
+};
+
+// creates the form for account data / password changes
 const createAccountForm = (csrf, account) => {
     ReactDOM.render(
         <AccountForm csrf={csrf} user={account} />, document.querySelector("#content")
     );
 };
 
+// sets up the events and page
 const setup = function(csrf) {
     const homeButton = document.querySelector("#homeButton");
     const recipeBookButton = document.querySelector("#recipeBookButton");
@@ -249,12 +263,14 @@ const setup = function(csrf) {
     createRecipeBook(csrf); // default view
 };
 
+// gets the CSRF token
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);
     });
 };
 
+// start by getting the token
 $(document).ready(function() {
     getToken();
 });

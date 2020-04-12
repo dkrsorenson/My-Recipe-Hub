@@ -57,6 +57,7 @@ RecipeSchema.statics.findByOwner = (ownerId, callback) => {
   return RecipeModel.find(search).select('title type ingredients instructions').lean().exec(callback);
 };
 
+// delete a recipe based on the mongo ID
 RecipeSchema.statics.deleteByID = (recipeID, callback) => {
   const search = {
     _id: convertId(recipeID),
@@ -65,6 +66,7 @@ RecipeSchema.statics.deleteByID = (recipeID, callback) => {
   return RecipeModel.find(search).remove().exec(callback);
 };
 
+// edit a recipe based on the mongo ID
 RecipeSchema.statics.editByID = (recipeID, data, callback) => {
   const search = {
     _id: recipeID,

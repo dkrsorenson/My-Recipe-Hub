@@ -2,6 +2,7 @@ const models = require('../models');
 
 const { Recipe } = models;
 
+// handles adding a recipe
 const addRecipe = (req, res) => {
   if (!req.body.title || !req.body.type || !req.body.ingredients || !req.body.instructions) {
     return res.status(400).json({ error: 'Title, type, and description are required.' });
@@ -33,6 +34,7 @@ const addRecipe = (req, res) => {
   return recipePromise;
 };
 
+// handles rendering the app page
 const recipeBookPage = (req, res) => {
   Recipe.RecipeModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -44,6 +46,7 @@ const recipeBookPage = (req, res) => {
   });
 };
 
+// handles getting the recipes from mongo
 const getRecipes = (request, response) => {
   const req = request;
   const res = response;
@@ -58,6 +61,7 @@ const getRecipes = (request, response) => {
   });
 };
 
+// handles deleting a recipe
 const deleteRecipe = (request, response) => {
   const req = request;
   const res = response;
@@ -72,6 +76,7 @@ const deleteRecipe = (request, response) => {
   });
 };
 
+// handles editing a recipe
 const editRecipe = (request, response) => {
   const req = request;
   const res = response;

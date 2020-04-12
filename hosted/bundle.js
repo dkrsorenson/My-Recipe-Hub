@@ -95,6 +95,12 @@ var RecipeForm = function RecipeForm(props) {
     }, /*#__PURE__*/React.createElement("option", {
       value: "Appetizers"
     }, "Appetizers"), /*#__PURE__*/React.createElement("option", {
+      value: "Side Dishes"
+    }, "Side Dishes"), /*#__PURE__*/React.createElement("option", {
+      value: "Breakfast"
+    }, "Breakfast"), /*#__PURE__*/React.createElement("option", {
+      value: "Lunch"
+    }, "Lunch"), /*#__PURE__*/React.createElement("option", {
       value: "Soups and Salads"
     }, "Soups and Salads"), /*#__PURE__*/React.createElement("option", {
       value: "Sauces and Dressings"
@@ -105,10 +111,14 @@ var RecipeForm = function RecipeForm(props) {
     }, "Seafood"), /*#__PURE__*/React.createElement("option", {
       value: "Pasta"
     }, "Pasta"), /*#__PURE__*/React.createElement("option", {
+      value: "Sandwiches"
+    }, "Sandwiches"), /*#__PURE__*/React.createElement("option", {
       value: "Drinks"
     }, "Drinks"), /*#__PURE__*/React.createElement("option", {
       value: "Desserts"
-    }, "Desserts")), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
+    }, "Desserts"), /*#__PURE__*/React.createElement("option", {
+      value: "Miscellaneous"
+    }, "Miscellaneous")), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
       htmlFor: "recipeIngredients"
     }, "Ingredients: "), /*#__PURE__*/React.createElement("textarea", {
       id: "recipeIngredients",
@@ -197,8 +207,6 @@ var RecipeList = function RecipeList(props) {
 
 
 var EditRecipeForm = function EditRecipeForm(props) {
-  console.log(props.recipe);
-  console.log(props.csrf);
   return (/*#__PURE__*/React.createElement("form", {
       id: "editRecipeForm",
       name: "editRecipeForm",
@@ -225,6 +233,12 @@ var EditRecipeForm = function EditRecipeForm(props) {
     }, /*#__PURE__*/React.createElement("option", {
       value: "Appetizers"
     }, "Appetizers"), /*#__PURE__*/React.createElement("option", {
+      value: "Side Dishes"
+    }, "Side Dishes"), /*#__PURE__*/React.createElement("option", {
+      value: "Breakfast"
+    }, "Breakfast"), /*#__PURE__*/React.createElement("option", {
+      value: "Lunch"
+    }, "Lunch"), /*#__PURE__*/React.createElement("option", {
       value: "Soups and Salads"
     }, "Soups and Salads"), /*#__PURE__*/React.createElement("option", {
       value: "Sauces and Dressings"
@@ -235,10 +249,14 @@ var EditRecipeForm = function EditRecipeForm(props) {
     }, "Seafood"), /*#__PURE__*/React.createElement("option", {
       value: "Pasta"
     }, "Pasta"), /*#__PURE__*/React.createElement("option", {
+      value: "Sandwiches"
+    }, "Sandwiches"), /*#__PURE__*/React.createElement("option", {
       value: "Drinks"
     }, "Drinks"), /*#__PURE__*/React.createElement("option", {
       value: "Desserts"
-    }, "Desserts")), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
+    }, "Desserts"), /*#__PURE__*/React.createElement("option", {
+      value: "Miscellaneous"
+    }, "Miscellaneous")), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
       htmlFor: "recipeIngredients"
     }, "Ingredients: "), /*#__PURE__*/React.createElement("textarea", {
       id: "recipeIngredients",

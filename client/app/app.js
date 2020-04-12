@@ -83,13 +83,18 @@ const RecipeForm = (props) => {
             <label htmlFor="type">Type: </label>  
             <select id="recipeType" name="type">
                 <option value="Appetizers">Appetizers</option>
+                <option value="Side Dishes">Side Dishes</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
                 <option value="Soups and Salads">Soups and Salads</option>
                 <option value="Sauces and Dressings">Sauces and Dressings</option>
                 <option value="Meats">Meats</option>
                 <option value="Seafood">Seafood</option>
                 <option value="Pasta">Pasta</option>
+                <option value="Sandwiches">Sandwiches</option>
                 <option value="Drinks">Drinks</option>
                 <option value="Desserts">Desserts</option>
+                <option value="Miscellaneous">Miscellaneous</option>
             </select><br/>
             <label htmlFor="recipeIngredients">Ingredients: </label>
             <textarea id="recipeIngredients" type="text" name="ingredients" placeholder="Recipe Ingredients"></textarea><br/><br/>
@@ -142,8 +147,6 @@ const RecipeList = function(props) {
 
 // the form to edit recipes
 const EditRecipeForm = (props) => {
-    console.log(props.recipe);
-    console.log(props.csrf);
     return (
         <form id="editRecipeForm" name="editRecipeForm" onSubmit={(e) => handleEdit(e, props.recipe._id, props.csrf)} action="/editRecipe" method="PUT" className="editRecipeForm">
             <label htmlFor="name">Title: </label>
@@ -151,13 +154,18 @@ const EditRecipeForm = (props) => {
             <label htmlFor="type">Type: </label>  
             <select id="recipeType" name="type" defaultValue={props.recipe.type}>
                 <option value="Appetizers">Appetizers</option>
+                <option value="Side Dishes">Side Dishes</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
                 <option value="Soups and Salads">Soups and Salads</option>
                 <option value="Sauces and Dressings">Sauces and Dressings</option>
                 <option value="Meats">Meats</option>
                 <option value="Seafood">Seafood</option>
                 <option value="Pasta">Pasta</option>
+                <option value="Sandwiches">Sandwiches</option>
                 <option value="Drinks">Drinks</option>
                 <option value="Desserts">Desserts</option>
+                <option value="Miscellaneous">Miscellaneous</option>
             </select><br/>
             <label htmlFor="recipeIngredients">Ingredients: </label>
             <textarea id="recipeIngredients" type="text" name="ingredients" placeholder="Recipe Ingredients">{props.recipe.ingredients}</textarea><br/><br/>

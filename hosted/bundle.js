@@ -3,7 +3,7 @@
 var handleRecipe = function handleRecipe(e) {
   e.preventDefault();
 
-  if ($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeIunstructions").val() == '') {
+  if ($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeInstructions").val() == '') {
     handleError("All fields are required");
     return false;
   }
@@ -37,15 +37,15 @@ var RecipeForm = function RecipeForm(props) {
     }, /*#__PURE__*/React.createElement("option", {
       value: "Appetizers"
     }, "Appetizers"), /*#__PURE__*/React.createElement("option", {
-      value: "Soups & Salads"
-    }, "Soups & Salads"), /*#__PURE__*/React.createElement("option", {
-      value: "Sauces & Dressings"
-    }, "Sauces & Dressings"), /*#__PURE__*/React.createElement("option", {
+      value: "Soups and Salads"
+    }, "Soups and Salads"), /*#__PURE__*/React.createElement("option", {
+      value: "Sauces and Dressings"
+    }, "Sauces and Dressings"), /*#__PURE__*/React.createElement("option", {
       value: "Meats"
     }, "Meats"), /*#__PURE__*/React.createElement("option", {
-      value: "Meats"
+      value: "Seafood"
     }, "Seafood"), /*#__PURE__*/React.createElement("option", {
-      value: "Meats"
+      value: "Pasta"
     }, "Pasta"), /*#__PURE__*/React.createElement("option", {
       value: "Drinks"
     }, "Drinks"), /*#__PURE__*/React.createElement("option", {
@@ -84,17 +84,6 @@ var handleDelete = function handleDelete(e, id, csrf) {
     _csrf: csrf
   };
   sendAjax('DELETE', $("#deleteRecipe").attr("action"), data, function () {
-    loadRecipesFromServer(csrf);
-  });
-};
-
-var handleRecipeEdit = function handleRecipeEdit(e, id, csrf) {
-  e.preventDefault();
-  var data = {
-    _id: id,
-    _csrf: csrf
-  };
-  sendAjax('PUT', $("#editRecipe").attr("action"), data, function () {
     loadRecipesFromServer(csrf);
   });
 };
@@ -142,34 +131,120 @@ var RecipeList = function RecipeList(props) {
         className: "recipeDelete",
         type: "image",
         src: "/assets/img/trashcan.png"
-      })), /*#__PURE__*/React.createElement("form", {
-        id: "editRecipe",
-        name: "editRecipe",
-        onSubmit: function onSubmit(e) {
-          return handleRecipeEdit(e, recipe._id, props.csrf);
-        },
-        action: "/editRecipe",
-        method: "PUT"
-      }, /*#__PURE__*/React.createElement("input", {
-        type: "hidden",
-        name: "_id",
-        value: recipe._id
-      }), /*#__PURE__*/React.createElement("input", {
-        type: "hidden",
-        id: "csrfToken",
-        name: "_csrf",
-        value: props.csrf
-      }), /*#__PURE__*/React.createElement("input", {
+      })), /*#__PURE__*/React.createElement("input", {
         className: "recipeEdit",
         type: "image",
-        src: "/assets/img/edit-icon.png"
-      })), /*#__PURE__*/React.createElement("br", null))
+        src: "/assets/img/edit-icon.png",
+        onClick: function onClick(e) {
+          createEditRecipeForm(props.csrf, recipe);
+        }
+      }), /*#__PURE__*/React.createElement("br", null))
     );
   });
   return (/*#__PURE__*/React.createElement("div", {
       className: "recipeList"
     }, recipeNodes)
   );
+};
+
+var handleEdit = function handleEdit(e, id, csrf) {
+  e.preventDefault();
+  var data = {
+    _id: id,
+    _csrf: csrf,
+    recipe: {
+      title: $("#recipeTitle").val(),
+      type: $("#recipeType").val(),
+      ingredients: $("#recipeIngredients").val(),
+      instructions: $("#recipeInstructions").val()
+    }
+  };
+
+  if ($("#recipeTitle").val() == '' || $("#recipeType").val() == '' || $("#recipeIngredients").val() == '' || $("#recipeInstructions").val() == '') {
+    handleError("All fields are required");
+    return false;
+  }
+
+  sendAjax('PUT', $("#editRecipeForm").attr("action"), data, function () {
+    handleSuccess('Successfully updated recipe!');
+  });
+  return false;
+};
+
+var EditRecipeForm = function EditRecipeForm(props) {
+  console.log(props.recipe);
+  console.log(props.csrf);
+  return (/*#__PURE__*/React.createElement("form", {
+      id: "editRecipeForm",
+      name: "editRecipeForm",
+      onSubmit: function onSubmit(e) {
+        return handleEdit(e, props.recipe._id, props.csrf);
+      },
+      action: "/editRecipe",
+      method: "PUT",
+      className: "editRecipeForm"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "name"
+    }, "Title: "), /*#__PURE__*/React.createElement("input", {
+      id: "recipeTitle",
+      type: "text",
+      name: "title",
+      placeholder: "Recipe Title",
+      defaultValue: props.recipe.title
+    }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
+      htmlFor: "type"
+    }, "Type: "), /*#__PURE__*/React.createElement("select", {
+      id: "recipeType",
+      name: "type",
+      defaultValue: props.recipe.type
+    }, /*#__PURE__*/React.createElement("option", {
+      value: "Appetizers"
+    }, "Appetizers"), /*#__PURE__*/React.createElement("option", {
+      value: "Soups and Salads"
+    }, "Soups and Salads"), /*#__PURE__*/React.createElement("option", {
+      value: "Sauces and Dressings"
+    }, "Sauces and Dressings"), /*#__PURE__*/React.createElement("option", {
+      value: "Meats"
+    }, "Meats"), /*#__PURE__*/React.createElement("option", {
+      value: "Seafood"
+    }, "Seafood"), /*#__PURE__*/React.createElement("option", {
+      value: "Pasta"
+    }, "Pasta"), /*#__PURE__*/React.createElement("option", {
+      value: "Drinks"
+    }, "Drinks"), /*#__PURE__*/React.createElement("option", {
+      value: "Desserts"
+    }, "Desserts")), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
+      htmlFor: "recipeIngredients"
+    }, "Ingredients: "), /*#__PURE__*/React.createElement("textarea", {
+      id: "recipeIngredients",
+      type: "text",
+      name: "ingredients",
+      placeholder: "Recipe Ingredients"
+    }, props.recipe.ingredients), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
+      htmlFor: "recipeInstructions"
+    }, "Instructions: "), /*#__PURE__*/React.createElement("textarea", {
+      id: "recipeInstructions",
+      type: "text",
+      name: "instructions",
+      placeholder: "Recipe Instructions"
+    }, props.recipe.instructions), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("input", {
+      type: "hidden",
+      name: "_csrf",
+      id: "csrfToken",
+      value: props.csrf
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeSubmit formSubmit",
+      type: "submit",
+      value: "Edit Recipe"
+    }))
+  );
+};
+
+var createEditRecipeForm = function createEditRecipeForm(csrf, recipe) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(EditRecipeForm, {
+    csrf: csrf,
+    recipe: recipe
+  }), document.querySelector("#content"));
 };
 
 var loadRecipesFromServer = function loadRecipesFromServer(csrf) {
@@ -219,7 +294,7 @@ var AccountForm = function AccountForm(props) {
       name: "accountForm",
       onSubmit: handlePassChange,
       action: "/changePassword",
-      method: "POST",
+      method: "PUT",
       className: "mainForm"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: "username"

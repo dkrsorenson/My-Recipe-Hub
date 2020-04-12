@@ -65,12 +65,21 @@ RecipeSchema.statics.deleteByID = (recipeID, callback) => {
   return RecipeModel.find(search).remove().exec(callback);
 };
 
-RecipeSchema.statics.editByID = (recipeID, callback) => {
+RecipeSchema.statics.editByID = (recipeID, data, callback) => {
   const search = {
-    _id: convertId(recipeID),
+    _id: recipeID,
   };
 
-  return RecipeModel.find(search).remove().exec(callback);
+  return RecipeModel.findOneAndUpdate(
+    search,
+    {
+      title: data.title,
+      type: data.type,
+      ingredients: data.ingredients,
+      instructions: data.instructions,
+    },
+    callback,
+  );
 };
 
 RecipeModel = mongoose.model('Recipe', RecipeSchema);

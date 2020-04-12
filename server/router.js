@@ -12,6 +12,7 @@ const router = (app) => {
   app.post('/addRecipe', mid.requiresLogin, controllers.Recipe.addRecipe);
   app.get('/recipeBook', mid.requiresLogin, controllers.Recipe.recipeBookPage);
   app.delete('/delete', mid.requiresLogin, controllers.Recipe.deleteRecipe);
+  app.put('/editRecipe', mid.requiresLogin, controllers.Recipe.editRecipe);
   app.get('/getUser', mid.requiresSecure, mid.requiresLogin, controllers.Account.getUser);
   app.put('/changePassword', mid.requiresSecure, mid.requiresLogin, controllers.Account.changePassword);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);

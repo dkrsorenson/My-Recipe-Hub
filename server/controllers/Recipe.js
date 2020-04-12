@@ -72,8 +72,22 @@ const deleteRecipe = (request, response) => {
   });
 };
 
+const editRecipe = (request, response) => {
+  const req = request;
+  const res = response;
+
+  return Recipe.RecipeModel.editByID(req.body._id, req.body.recipe, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.status(204).json();
+  });
+};
+
 module.exports.addRecipe = addRecipe;
 module.exports.getRecipes = getRecipes;
-// module.exports.addRecipePage = addRecipePage;
 module.exports.recipeBookPage = recipeBookPage;
 module.exports.deleteRecipe = deleteRecipe;
+module.exports.editRecipe = editRecipe;

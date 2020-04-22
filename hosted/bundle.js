@@ -156,7 +156,25 @@ var RecipeList = function RecipeList(props) {
     );
   }
 
-  var recipeNodes = props.recipes.map(function (recipe) {
+  var recipes = props.recipes; // filter recipes if necessary
+
+  if (props.selectedType !== "All") {
+    recipes = recipes.filter(function (recipe) {
+      return recipe.type === props.selectedType;
+    });
+  } // ensure filtered list isn't empty
+
+
+  if (recipes.length === 0) {
+    return (/*#__PURE__*/React.createElement("div", {
+        className: "recipeList"
+      }, /*#__PURE__*/React.createElement("h3", {
+        className: "emptyRecipe"
+      }, "No recipes yet"))
+    );
+  }
+
+  var recipeNodes = recipes.map(function (recipe) {
     return (/*#__PURE__*/React.createElement("div", {
         key: recipe._id,
         className: "recipe"
@@ -203,7 +221,139 @@ var RecipeList = function RecipeList(props) {
       className: "recipeList"
     }, recipeNodes)
   );
-}; // the form to edit recipes
+}; // side navigation for filtering recipes by type
+
+
+var RecipeTypeSideNav = function RecipeTypeSideNav(props) {
+  return (/*#__PURE__*/React.createElement("div", {
+      id: "filterNav",
+      className: "filterSideNav"
+    }, /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      className: "closebtn",
+      onClick: closeNav
+    }, "\xD7"), /*#__PURE__*/React.createElement("h2", null, "Filter Type"), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "All");
+      },
+      value: "All"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Appetizers");
+      },
+      value: "Appetizers"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Side Dishes");
+      },
+      value: "Side Dishes"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Breakfast");
+      },
+      value: "Breakfast"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Lunch");
+      },
+      value: "Lunch"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Soups and Salads");
+      },
+      value: "Soups and Salads"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Sauces and Dressings");
+      },
+      value: "Sauces and Dressings"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Meats");
+      },
+      value: "Meats"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Seafood");
+      },
+      value: "Seafood"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Pasta");
+      },
+      value: "Pasta"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Sandwiches");
+      },
+      value: "Sandwiches"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Drinks");
+      },
+      value: "Drinks"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Desserts");
+      },
+      value: "Desserts"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Miscellaneous");
+      },
+      value: "Miscellaneous"
+    }))
+  );
+}; // displays hambuger icon for expanding the recipe types side nav
+
+
+var RecipeTypeSpan = function RecipeTypeSpan() {
+  return (/*#__PURE__*/React.createElement("span", {
+      className: "hamburger",
+      onClick: openNav
+    }, "\u2630")
+  );
+}; // opens the recipe types menu
+
+
+function openNav() {
+  document.getElementById("filterNav").style.width = "250px";
+  document.getElementById("content").style.marginRight = "250px";
+} // closes the recipe types menu
+
+
+function closeNav() {
+  document.getElementById("filterNav").style.width = "0";
+  document.getElementById("content").style.marginRight = "15px";
+} // the form to edit recipes
 
 
 var EditRecipeForm = function EditRecipeForm(props) {
@@ -336,22 +486,28 @@ var createEditRecipeForm = function createEditRecipeForm(csrf, recipe) {
 }; // loads all recipes to the recipe list
 
 
-var loadRecipesFromServer = function loadRecipesFromServer(csrf) {
+var loadRecipesFromServer = function loadRecipesFromServer(csrf, type) {
   sendAjax('GET', '/getRecipes', null, function (data) {
     ReactDOM.render( /*#__PURE__*/React.createElement(RecipeList, {
       recipes: data.recipes,
-      csrf: csrf
+      csrf: csrf,
+      selectedType: type
     }), document.querySelector("#content"));
   });
 }; // creates the recipe list 
 
 
-var createRecipeBook = function createRecipeBook(csrf) {
+var createRecipeBook = function createRecipeBook(csrf, type) {
   ReactDOM.render( /*#__PURE__*/React.createElement(RecipeList, {
     recipes: [],
-    csrf: csrf
+    csrf: csrf,
+    selectedType: type
   }), document.querySelector("#content"));
-  loadRecipesFromServer(csrf);
+  ReactDOM.render( /*#__PURE__*/React.createElement(RecipeTypeSideNav, {
+    csrf: csrf
+  }), document.querySelector("#typeSideNav"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(RecipeTypeSpan, null), document.querySelector("#typeSpan"));
+  loadRecipesFromServer(csrf, type);
 }; // creates the form to add recipes
 
 
@@ -377,12 +533,12 @@ var setup = function setup(csrf) {
   var accountButton = document.querySelector("#accountButton");
   homeButton.addEventListener("click", function (e) {
     e.preventDefault();
-    createRecipeBook(csrf);
+    createRecipeBook(csrf, "All");
     return false;
   });
   recipeBookButton.addEventListener("click", function (e) {
     e.preventDefault();
-    createRecipeBook(csrf);
+    createRecipeBook(csrf, "All");
     return false;
   });
   addRecipeButton.addEventListener("click", function (e) {
@@ -397,7 +553,7 @@ var setup = function setup(csrf) {
     });
     return false;
   });
-  createRecipeBook(csrf); // default view
+  createRecipeBook(csrf, "All"); // default view
 }; // gets the CSRF token
 
 

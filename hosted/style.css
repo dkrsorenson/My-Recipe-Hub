@@ -133,7 +133,7 @@ html, body {
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    width: 98%;
+    width: 96%;
     border-radius: 5px;
     margin-bottom: 30px;
     position: relative;
@@ -309,3 +309,65 @@ html, body {
     vertical-align: middle;
     text-align: center;
 } 
+
+
+/* recipe type side nav css */
+.hamburger {
+  font-size: 30px;
+  cursor: pointer;
+  top: 20px;
+  right: 30px;
+  position: fixed;
+}
+
+#filterNav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #d3e9ee;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+#filterNav a, 
+#filterNav button, 
+#filterNav input  {
+  background: none!important;
+  padding: 8px 8px 8px 32px;
+  border: none;
+  text-decoration: none;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  cursor: pointer;
+  font-size: 1.0em;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+#filterNav input[type="submit"]:hover,
+#filterNav a:hover,
+#filterNav .offcanvas a:focus {
+  color: #f1f1f1;
+}
+
+#filterNav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 50px;
+  margin-left: 50px;
+}
+
+#content {
+    transition: margin-right .5s;
+    padding: 16px;
+}
+
+#filterNav h2 {
+    font-size: 1.0em;
+    padding-left: 20px;
+}

@@ -116,7 +116,26 @@ const RecipeList = function(props) {
         );
     }
 
-    const recipeNodes = props.recipes.map(function(recipe) {
+    let recipes = props.recipes;
+    
+    // filter recipes if necessary
+    if(props.selectedType !== "All")
+    {
+        recipes = recipes.filter(function(recipe) {
+            return recipe.type === props.selectedType;
+        });
+    }
+
+    // ensure filtered list isn't empty
+    if(recipes.length === 0) {
+        return (
+            <div className="recipeList">
+                <h3 className="emptyRecipe">No recipes yet</h3>
+            </div>
+        );
+    }
+
+    const recipeNodes = recipes.map(function(recipe) {
         return (
             <div key={recipe._id} className="recipe">
                 <h3 className="recipeTitle"> Title: </h3>
@@ -144,6 +163,49 @@ const RecipeList = function(props) {
         </div>
     );
 };
+
+// side navigation for filtering recipes by type
+const RecipeTypeSideNav = function(props) {
+    return (
+        <div id="filterNav" className="filterSideNav">
+            <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>&times;</a>
+            <h2>Filter Type</h2>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "All")}} value="All"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Appetizers")}} value="Appetizers"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Side Dishes")}} value="Side Dishes"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Breakfast")}} value="Breakfast"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Lunch")}} value="Lunch"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Soups and Salads")}} value="Soups and Salads"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Sauces and Dressings")}} value="Sauces and Dressings"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Meats")}} value="Meats"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Seafood")}} value="Seafood"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Pasta")}} value="Pasta"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Sandwiches")}} value="Sandwiches"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Drinks")}} value="Drinks"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Desserts")}} value="Desserts"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Miscellaneous")}} value="Miscellaneous"/>
+        </div>
+    );
+};
+
+// displays hambuger icon for expanding the recipe types side nav
+const RecipeTypeSpan = function() {
+    return (
+        <span className="hamburger" onClick={openNav}>&#9776;</span>
+    );
+}
+
+// opens the recipe types menu
+function openNav() {
+    document.getElementById("filterNav").style.width = "250px";
+    document.getElementById("content").style.marginRight = "250px";
+}
+
+// closes the recipe types menu
+function closeNav() {
+    document.getElementById("filterNav").style.width = "0";
+    document.getElementById("content").style.marginRight= "15px";
+}
 
 // the form to edit recipes
 const EditRecipeForm = (props) => {
@@ -204,21 +266,29 @@ const createEditRecipeForm = (csrf, recipe) => {
 };
 
 // loads all recipes to the recipe list
-const loadRecipesFromServer = (csrf) => {
+const loadRecipesFromServer = (csrf, type) => {
     sendAjax('GET', '/getRecipes', null, (data) => {
         ReactDOM.render(
-            <RecipeList recipes={data.recipes} csrf={csrf} />, document.querySelector("#content")
+            <RecipeList recipes={data.recipes} csrf={csrf} selectedType={type} />, document.querySelector("#content")
         );
     });
 };
 
 // creates the recipe list 
-const createRecipeBook = (csrf) => {
+const createRecipeBook = (csrf, type) => {
     ReactDOM.render(
-        <RecipeList recipes={[]} csrf={csrf} />, document.querySelector("#content")
+        <RecipeList recipes={[]} csrf={csrf} selectedType={type} />, document.querySelector("#content")
     );
 
-    loadRecipesFromServer(csrf);
+    ReactDOM.render(
+        <RecipeTypeSideNav csrf={csrf} />, document.querySelector("#typeSideNav")
+    );
+    
+    ReactDOM.render(
+        <RecipeTypeSpan />, document.querySelector("#typeSpan")
+    );
+
+    loadRecipesFromServer(csrf, type);
 };
 
 // creates the form to add recipes
@@ -244,13 +314,13 @@ const setup = function(csrf) {
 
     homeButton.addEventListener("click", (e) => {
         e.preventDefault();
-        createRecipeBook(csrf);
+        createRecipeBook(csrf, "All");
         return false;
     });
 
     recipeBookButton.addEventListener("click", (e) => {
         e.preventDefault();
-        createRecipeBook(csrf);
+        createRecipeBook(csrf, "All");
         return false;
     });
 
@@ -268,7 +338,7 @@ const setup = function(csrf) {
         return false;
     });
 
-    createRecipeBook(csrf); // default view
+    createRecipeBook(csrf, "All"); // default view
 };
 
 // gets the CSRF token

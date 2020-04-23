@@ -55,6 +55,7 @@ const SignupWindow = (props) => {
             <input id="pass" type="password" name="pass" placeholder="password"/><br/>
             <label htmlFor="pass2">Password: </label>
             <input id="pass2" type="password" name="pass2" placeholder="confirm password"/><br/>
+            <div id="recaptcha" class="g-recaptcha" data-sitekey="6Lch6uwUAAAAAOvqglgMnvkmqxuOBnU8l1hnDRE_"></div>
             <input type="hidden" name="_csrf" value={props.csrf}/>
             <input className="formSubmit" type="submit" value="Sign in"/>
         </form>
@@ -72,7 +73,11 @@ const createSignupWindow = (csrf) => {
     ReactDOM.render(
         <SignupWindow csrf={csrf} />,
         document.querySelector("#content")
-    );
+    ); 
+
+    grecaptcha.render("recaptcha", {
+        sitekey: '6Lch6uwUAAAAAOvqglgMnvkmqxuOBnU8l1hnDRE_'
+    });
 };
 
 const setup = (csrf) => {

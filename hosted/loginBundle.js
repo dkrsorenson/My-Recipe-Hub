@@ -98,7 +98,11 @@ var SignupWindow = function SignupWindow(props) {
       type: "password",
       name: "pass2",
       placeholder: "confirm password"
-    }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("input", {
+    }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("div", {
+      id: "recaptcha",
+      "class": "g-recaptcha",
+      "data-sitekey": "6Lch6uwUAAAAAOvqglgMnvkmqxuOBnU8l1hnDRE_"
+    }), /*#__PURE__*/React.createElement("input", {
       type: "hidden",
       name: "_csrf",
       value: props.csrf
@@ -120,6 +124,9 @@ var createSignupWindow = function createSignupWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(SignupWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
+  grecaptcha.render("recaptcha", {
+    sitekey: '6Lch6uwUAAAAAOvqglgMnvkmqxuOBnU8l1hnDRE_'
+  });
 };
 
 var setup = function setup(csrf) {

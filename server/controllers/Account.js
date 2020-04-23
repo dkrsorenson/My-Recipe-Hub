@@ -1,3 +1,4 @@
+const fetch = require('node-fetch');
 const models = require('../models');
 
 const { Account } = models;
@@ -51,6 +52,32 @@ const signup = (request, response) => {
 
   if (req.body.pass !== req.body.pass2) {
     return res.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  if (req.body['g-recaptcha-response'] === undefined
+      || req.body['g-recaptcha-response'] === null
+      || req.body['g-recaptcha-response'] === '') {
+    return res.status(400).json({ error: 'Please complete the recaptcha' });
+  }
+
+  // secret key
+  const secretKey = '6Lch6uwUAAAAAFwEKv2r8liv4g0PfN4Gk4pyaapZ';
+
+  // verification query
+  const query = JSON.stringify({
+    secret: secretKey,
+    response: req.body['g-recaptcha-response'],
+    remoteip: req.connection.remoteAddress,
+  });
+
+  const verifyURL = `https://google.com/recaptcha/api/siteverify?${query}`;
+
+  // make a request to the verification url
+  const body = fetch(verifyURL).then((rs) => rs.json());
+
+  // handle recaptcha error
+  if (body.success !== undefined && !body.success) {
+    return res.status(400).json({ error: 'Failed recaptcha verification' });
   }
 
   return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {

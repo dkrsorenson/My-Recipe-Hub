@@ -228,11 +228,7 @@ var RecipeTypeSideNav = function RecipeTypeSideNav(props) {
   return (/*#__PURE__*/React.createElement("div", {
       id: "filterNav",
       className: "filterSideNav"
-    }, /*#__PURE__*/React.createElement("a", {
-      href: "javascript:void(0)",
-      className: "closebtn",
-      onClick: closeNav
-    }, "\xD7"), /*#__PURE__*/React.createElement("h2", null, "Filter Type"), /*#__PURE__*/React.createElement("input", {
+    }, /*#__PURE__*/React.createElement("h2", null, "Filter Type"), /*#__PURE__*/React.createElement("input", {
       className: "recipeFilter",
       type: "submit",
       onClick: function onClick(e) {
@@ -337,6 +333,7 @@ var RecipeTypeSideNav = function RecipeTypeSideNav(props) {
 
 var RecipeTypeSpan = function RecipeTypeSpan() {
   return (/*#__PURE__*/React.createElement("span", {
+      id: "hamburgerIcon",
       className: "hamburger",
       onClick: openNav
     }, "\u2630")
@@ -345,14 +342,20 @@ var RecipeTypeSpan = function RecipeTypeSpan() {
 
 
 function openNav() {
-  document.getElementById("filterNav").style.width = "250px";
-  document.getElementById("content").style.marginRight = "250px";
+  if (document.getElementById("hamburgerIcon").style.marginRight === "240px") {
+    closeNav();
+  } else {
+    document.getElementById("filterNav").style.width = "250px";
+    document.getElementById("hamburgerIcon").style.marginRight = "240px";
+    document.getElementById("content").style.marginRight = "275px";
+  }
 } // closes the recipe types menu
 
 
 function closeNav() {
   document.getElementById("filterNav").style.width = "0";
-  document.getElementById("content").style.marginRight = "15px";
+  document.getElementById("hamburgerIcon").style.marginRight = "15px";
+  document.getElementById("content").style.marginRight = "50px";
 } // the form to edit recipes
 
 
@@ -483,6 +486,7 @@ var createEditRecipeForm = function createEditRecipeForm(csrf, recipe) {
     csrf: csrf,
     recipe: recipe
   }), document.querySelector("#content"));
+  document.getElementById('typeSpan').style.display = 'none';
 }; // loads all recipes to the recipe list
 
 
@@ -507,6 +511,12 @@ var createRecipeBook = function createRecipeBook(csrf, type) {
     csrf: csrf
   }), document.querySelector("#typeSideNav"));
   ReactDOM.render( /*#__PURE__*/React.createElement(RecipeTypeSpan, null), document.querySelector("#typeSpan"));
+  var element = document.getElementById('typeSpan');
+
+  if (typeof element != 'undefined' && element != null) {
+    document.getElementById('typeSpan').style.display = 'block';
+  }
+
   loadRecipesFromServer(csrf, type);
 }; // creates the form to add recipes
 
@@ -515,6 +525,7 @@ var createRecipeForm = function createRecipeForm(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(RecipeForm, {
     csrf: csrf
   }), document.querySelector("#content"));
+  document.getElementById('typeSpan').style.display = 'none';
 }; // creates the form for account data / password changes
 
 
@@ -523,6 +534,7 @@ var createAccountForm = function createAccountForm(csrf, account) {
     csrf: csrf,
     user: account
   }), document.querySelector("#content"));
+  document.getElementById('typeSpan').style.display = 'none';
 }; // sets up the events and page
 
 

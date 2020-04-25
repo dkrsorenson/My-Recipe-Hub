@@ -168,7 +168,6 @@ const RecipeList = function(props) {
 const RecipeTypeSideNav = function(props) {
     return (
         <div id="filterNav" className="filterSideNav">
-            <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>&times;</a>
             <h2>Filter Type</h2>
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "All")}} value="All"/>
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Appetizers")}} value="Appetizers"/>
@@ -191,20 +190,28 @@ const RecipeTypeSideNav = function(props) {
 // displays hambuger icon for expanding the recipe types side nav
 const RecipeTypeSpan = function() {
     return (
-        <span className="hamburger" onClick={openNav}>&#9776;</span>
+        <span id="hamburgerIcon" className="hamburger" onClick={openNav}>&#9776;</span>
     );
 }
 
 // opens the recipe types menu
 function openNav() {
-    document.getElementById("filterNav").style.width = "250px";
-    document.getElementById("content").style.marginRight = "250px";
+    if (document.getElementById("hamburgerIcon").style.marginRight === "240px")
+    {
+        closeNav();
+    }
+    else {
+        document.getElementById("filterNav").style.width = "250px";
+        document.getElementById("hamburgerIcon").style.marginRight = "240px";
+        document.getElementById("content").style.marginRight = "275px";
+    }
 }
 
 // closes the recipe types menu
 function closeNav() {
     document.getElementById("filterNav").style.width = "0";
-    document.getElementById("content").style.marginRight= "15px";
+    document.getElementById("hamburgerIcon").style.marginRight= "15px";
+    document.getElementById("content").style.marginRight= "50px";
 }
 
 // the form to edit recipes
@@ -263,6 +270,8 @@ const createEditRecipeForm = (csrf, recipe) => {
     ReactDOM.render(
         <EditRecipeForm csrf={csrf} recipe={recipe} />, document.querySelector("#content")
     );
+
+    document.getElementById('typeSpan').style.display = 'none';
 };
 
 // loads all recipes to the recipe list
@@ -288,6 +297,13 @@ const createRecipeBook = (csrf, type) => {
         <RecipeTypeSpan />, document.querySelector("#typeSpan")
     );
 
+    var element = document.getElementById('typeSpan');
+
+    if (typeof(element) != 'undefined' && element != null)
+    {
+        document.getElementById('typeSpan').style.display = 'block';
+    }
+
     loadRecipesFromServer(csrf, type);
 };
 
@@ -296,6 +312,8 @@ const createRecipeForm = (csrf) => {
     ReactDOM.render(
         <RecipeForm csrf={csrf} />, document.querySelector("#content")
     );
+
+    document.getElementById('typeSpan').style.display = 'none';
 };
 
 // creates the form for account data / password changes
@@ -303,6 +321,8 @@ const createAccountForm = (csrf, account) => {
     ReactDOM.render(
         <AccountForm csrf={csrf} user={account} />, document.querySelector("#content")
     );
+    
+    document.getElementById('typeSpan').style.display = 'none';
 };
 
 // sets up the events and page

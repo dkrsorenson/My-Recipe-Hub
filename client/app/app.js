@@ -394,7 +394,7 @@ const setup = function(csrf) {
     createRecipeBook(csrf, "All"); // default view
 };
 
-// gets the CSRF token
+// gets the CSRF token and starts app setup
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);

@@ -599,7 +599,7 @@ var setup = function setup(csrf) {
     return false;
   });
   createRecipeBook(csrf, "All"); // default view
-}; // gets the CSRF token
+}; // gets the CSRF token and starts app setup
 
 
 var getToken = function getToken() {

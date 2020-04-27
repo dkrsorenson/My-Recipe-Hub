@@ -1,5 +1,6 @@
 "use strict";
 
+// Handles login
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
   $("#errorMessageBox").animate({
@@ -13,7 +14,8 @@ var handleLogin = function handleLogin(e) {
 
   sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
   return false;
-};
+}; // Handles creating an account on sign up
+
 
 var handleSignup = function handleSignup(e) {
   e.preventDefault();
@@ -33,7 +35,8 @@ var handleSignup = function handleSignup(e) {
 
   sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(), redirect);
   return false;
-};
+}; // Login form
+
 
 var LoginWindow = function LoginWindow(props) {
   return (/*#__PURE__*/React.createElement("form", {
@@ -67,7 +70,8 @@ var LoginWindow = function LoginWindow(props) {
       value: "Sign in"
     }))
   );
-};
+}; // Sign up form
+
 
 var SignupWindow = function SignupWindow(props) {
   return (/*#__PURE__*/React.createElement("form", {
@@ -112,13 +116,15 @@ var SignupWindow = function SignupWindow(props) {
       value: "Sign in"
     }))
   );
-};
+}; // Renders the login window
+
 
 var createLoginWindow = function createLoginWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(LoginWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-};
+}; // Renders the sign up window
+
 
 var createSignupWindow = function createSignupWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(SignupWindow, {
@@ -143,13 +149,15 @@ var setup = function setup(csrf) {
     return false;
   });
   createLoginWindow(csrf); // default view
-};
+}; // gets the CSRF token and starts app setup
+
 
 var getToken = function getToken() {
   sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
-};
+}; // starts the app by getting the token
+
 
 $(document).ready(function () {
   getToken();

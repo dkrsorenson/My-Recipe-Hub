@@ -1,3 +1,4 @@
+// Handles login
 const handleLogin = (e) => {
     e.preventDefault();
 
@@ -13,6 +14,7 @@ const handleLogin = (e) => {
     return false;
 };
 
+// Handles creating an account on sign up
 const handleSignup = (e) => {
     e.preventDefault();
 
@@ -33,6 +35,7 @@ const handleSignup = (e) => {
     return false;
 };
 
+// Login form
 const LoginWindow = (props) => {
     return (
         <form id="loginForm" name="loginForm" onSubmit={handleLogin} action="/login" method="POST" className="mainForm">
@@ -46,6 +49,7 @@ const LoginWindow = (props) => {
     );
 };
 
+// Sign up form
 const SignupWindow = (props) => {
     return (
         <form id="signupForm" name="signupForm" onSubmit={handleSignup} action="/signup" method="POST" className="mainForm">
@@ -62,6 +66,7 @@ const SignupWindow = (props) => {
     );
 };
 
+// Renders the login window
 const createLoginWindow = (csrf) => {
     ReactDOM.render(
         <LoginWindow csrf={csrf} />,
@@ -69,6 +74,7 @@ const createLoginWindow = (csrf) => {
     );
 };
 
+// Renders the sign up window
 const createSignupWindow = (csrf) => {
     ReactDOM.render(
         <SignupWindow csrf={csrf} />,
@@ -99,12 +105,14 @@ const setup = (csrf) => {
     createLoginWindow(csrf); // default view
 };
 
+// gets the CSRF token and starts app setup
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);
     });
 };
 
+// starts the app by getting the token
 $(document).ready(function() {
     getToken();
 });

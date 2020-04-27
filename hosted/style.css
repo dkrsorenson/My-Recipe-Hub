@@ -127,17 +127,71 @@ html, body {
     font-size: 1.2em;
 }
 
-.recipe {
-    font-size: 1.0em;
-    background-color: #d4dde4;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 96%;
-    border-radius: 5px;
-    margin-bottom: 30px;
-    position: relative;
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	
+	box-sizing: border-box; 
 }
+
+
+.wrap {
+	display: flex;
+}
+
+.col {
+	padding: 10px;
+}
+
+.col:nth-of-type(odd) {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    background-color: #f1f1f1;
+}
+
+.col:nth-of-type(even) {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    background-color: #f1f1f1;
+}
+
+.row {
+	flex-wrap: wrap;
+}
+
+.column {
+	width: 46%;
+	margin: 2%;	
+}
+
+.column:nth-of-type(2n) {
+	margin-right: 0;	
+}
+
+.column:nth-of-type(2n+1) {
+	margin-left: 0;	
+}
+
+
+/* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 900px) {
+    .row {
+      flex-direction: column;
+    }
+    .column {
+        width: 100%;
+        margin:0;
+        margin-top:5%;
+    }
+  }
+
+
+/* Style the counter cards */
+.recipe {
+  padding: 16px;
+  text-align: left; /*was center*/
+  font-size: 1.0em;
+  position: relative;
+}
+
 
 .recipe label {
     white-space: pre-line;
@@ -266,6 +320,14 @@ html, body {
     }
     .sidebar a {float: left;}
     div.content {margin-left: 0;}
+    
+    #content {
+        margin-left: 50px;
+    }
+
+    #ad {
+        margin-top: 30px;
+    }
 }
   
 @media screen and (max-width: 400px) {

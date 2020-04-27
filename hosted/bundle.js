@@ -1,6 +1,7 @@
 "use strict";
 
-// handles creating a new recipe
+var currentType = "All"; // handles creating a new recipe
+
 var handleRecipe = function handleRecipe(e) {
   e.preventDefault();
 
@@ -10,7 +11,7 @@ var handleRecipe = function handleRecipe(e) {
   }
 
   sendAjax('POST', $("#recipeForm").attr("action"), $("#recipeForm").serialize(), function () {
-    loadRecipesFromServer($("#csrfToken").val());
+    loadRecipesFromServer($("#csrfToken").val(), "All");
   });
   return false;
 }; // handles deleting a recipe
@@ -23,7 +24,7 @@ var handleDelete = function handleDelete(e, id, csrf) {
     _csrf: csrf
   };
   sendAjax('DELETE', $("#deleteRecipe").attr("action"), data, function () {
-    loadRecipesFromServer(csrf);
+    loadRecipesFromServer(csrf, currentType);
   });
 }; // handles an account password change
 
@@ -176,17 +177,27 @@ var RecipeList = function RecipeList(props) {
 
   var recipeNodes = recipes.map(function (recipe) {
     return (/*#__PURE__*/React.createElement("div", {
+        className: "column col"
+      }, /*#__PURE__*/React.createElement("div", {
         key: recipe._id,
         className: "recipe"
       }, /*#__PURE__*/React.createElement("h3", {
         className: "recipeTitle"
       }, " Title: "), /*#__PURE__*/React.createElement("label", null, recipe.title), /*#__PURE__*/React.createElement("h3", {
         className: "recipeType"
-      }, " Type: "), /*#__PURE__*/React.createElement("label", null, recipe.type), /*#__PURE__*/React.createElement("h3", {
-        className: "recipeDescription"
-      }, " Ingredients: "), /*#__PURE__*/React.createElement("label", null, recipe.ingredients), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("h3", {
-        className: "recipeDescription"
-      }, " Instructions: "), /*#__PURE__*/React.createElement("label", null, recipe.instructions), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("form", {
+      }, " Type: "), /*#__PURE__*/React.createElement("label", null, recipe.type), /*#__PURE__*/React.createElement("div", {
+        className: "recipeRow"
+      }, /*#__PURE__*/React.createElement("div", {
+        id: "ingredients",
+        className: "recipeColumn"
+      }, /*#__PURE__*/React.createElement("h3", {
+        className: "recipeIngredients"
+      }, " Ingredients: "), /*#__PURE__*/React.createElement("label", null, recipe.ingredients)), /*#__PURE__*/React.createElement("div", {
+        id: "instructions",
+        className: "recipeColumn"
+      }, /*#__PURE__*/React.createElement("h3", {
+        className: "recipeInstructions"
+      }, " Instructions: "), /*#__PURE__*/React.createElement("label", null, recipe.instructions))), /*#__PURE__*/React.createElement("form", {
         id: "deleteRecipe",
         name: "deleteRecipe",
         onSubmit: function onSubmit(e) {
@@ -214,12 +225,14 @@ var RecipeList = function RecipeList(props) {
         onClick: function onClick(e) {
           createEditRecipeForm(props.csrf, recipe);
         }
-      }), /*#__PURE__*/React.createElement("br", null))
+      }), /*#__PURE__*/React.createElement("br", null)))
     );
   });
   return (/*#__PURE__*/React.createElement("div", {
       className: "recipeList"
-    }, recipeNodes)
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "row wrap"
+    }, recipeNodes))
   );
 }; // side navigation for filtering recipes by type
 
@@ -486,11 +499,24 @@ var createEditRecipeForm = function createEditRecipeForm(csrf, recipe) {
     csrf: csrf,
     recipe: recipe
   }), document.querySelector("#content"));
+
+  if (document.getElementById("hamburgerIcon").style.marginRight === "240px") {
+    closeNav();
+  }
+
   document.getElementById('typeSpan').style.display = 'none';
+  document.getElementById('typeSideNav').style.display = 'none';
 }; // loads all recipes to the recipe list
 
 
 var loadRecipesFromServer = function loadRecipesFromServer(csrf, type) {
+  var element = document.getElementById('typeSpan');
+
+  if (typeof element != 'undefined' && element != null) {
+    document.getElementById('typeSpan').style.display = 'block';
+    document.getElementById('typeSideNav').style.display = 'block';
+  }
+
   sendAjax('GET', '/getRecipes', null, function (data) {
     ReactDOM.render( /*#__PURE__*/React.createElement(RecipeList, {
       recipes: data.recipes,
@@ -511,12 +537,7 @@ var createRecipeBook = function createRecipeBook(csrf, type) {
     csrf: csrf
   }), document.querySelector("#typeSideNav"));
   ReactDOM.render( /*#__PURE__*/React.createElement(RecipeTypeSpan, null), document.querySelector("#typeSpan"));
-  var element = document.getElementById('typeSpan');
-
-  if (typeof element != 'undefined' && element != null) {
-    document.getElementById('typeSpan').style.display = 'block';
-  }
-
+  currentType = type;
   loadRecipesFromServer(csrf, type);
 }; // creates the form to add recipes
 
@@ -525,7 +546,13 @@ var createRecipeForm = function createRecipeForm(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(RecipeForm, {
     csrf: csrf
   }), document.querySelector("#content"));
+
+  if (document.getElementById("hamburgerIcon").style.marginRight === "240px") {
+    closeNav();
+  }
+
   document.getElementById('typeSpan').style.display = 'none';
+  document.getElementById('typeSideNav').style.display = 'none';
 }; // creates the form for account data / password changes
 
 
@@ -534,7 +561,13 @@ var createAccountForm = function createAccountForm(csrf, account) {
     csrf: csrf,
     user: account
   }), document.querySelector("#content"));
+
+  if (document.getElementById("hamburgerIcon").style.marginRight === "240px") {
+    closeNav();
+  }
+
   document.getElementById('typeSpan').style.display = 'none';
+  document.getElementById('typeSideNav').style.display = 'none';
 }; // sets up the events and page
 
 

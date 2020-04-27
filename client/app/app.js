@@ -1,3 +1,5 @@
+let currentType = "All"; 
+
 // handles creating a new recipe
 const handleRecipe = (e) => {
     e.preventDefault();
@@ -8,7 +10,7 @@ const handleRecipe = (e) => {
     }
 
     sendAjax('POST', $("#recipeForm").attr("action"), $("#recipeForm").serialize(), function() {
-        loadRecipesFromServer($("#csrfToken").val());
+        loadRecipesFromServer($("#csrfToken").val(), "All");
     });
 
     return false;
@@ -24,7 +26,7 @@ const handleDelete = (e, id, csrf) => {
     };
 
     sendAjax('DELETE', $("#deleteRecipe").attr("action"), data, function(){
-        loadRecipesFromServer(csrf);
+        loadRecipesFromServer(csrf, currentType);
     });
 };
 
@@ -137,29 +139,39 @@ const RecipeList = function(props) {
 
     const recipeNodes = recipes.map(function(recipe) {
         return (
-            <div key={recipe._id} className="recipe">
-                <h3 className="recipeTitle"> Title: </h3>
-                <label>{recipe.title}</label>
-                <h3 className="recipeType"> Type: </h3>
-                <label>{recipe.type}</label>
-                <h3 className="recipeDescription"> Ingredients: </h3>
-                <label>{recipe.ingredients}</label><br/>
-                <h3 className="recipeDescription"> Instructions: </h3>
-                <label>{recipe.instructions}</label><br/><br/><br/>
-                <form id="deleteRecipe" name="deleteRecipe" onSubmit={(e) => handleDelete(e, recipe._id, props.csrf)} action="/delete" method="DELETE" >
-                    <input type="hidden" name="_id" value={recipe._id}/>
-                    <input type="hidden" id="csrfToken" name="_csrf" value={props.csrf}/>
-                    <input className="recipeDelete" type="image" src="/assets/img/trashcan.png" />
-                </form>
-                <input className="recipeEdit" type="image" src="/assets/img/edit-icon.png" onClick={(e) => {createEditRecipeForm(props.csrf, recipe)}} />
-                <br/>
+            <div className="column col">
+                <div key={recipe._id} className="recipe">
+                    <h3 className="recipeTitle"> Title: </h3>
+                    <label>{recipe.title}</label>
+                    <h3 className="recipeType"> Type: </h3>
+                    <label>{recipe.type}</label>
+                    <div className="recipeRow">
+                        <div id="ingredients" className="recipeColumn">
+                            <h3 className="recipeIngredients"> Ingredients: </h3>
+                            <label>{recipe.ingredients}</label>
+                        </div>
+                        <div id="instructions" className="recipeColumn">
+                            <h3 className="recipeInstructions"> Instructions: </h3>
+                            <label>{recipe.instructions}</label>
+                        </div>
+                    </div>
+                    <form id="deleteRecipe" name="deleteRecipe" onSubmit={(e) => handleDelete(e, recipe._id, props.csrf)} action="/delete" method="DELETE" >
+                        <input type="hidden" name="_id" value={recipe._id}/>
+                        <input type="hidden" id="csrfToken" name="_csrf" value={props.csrf}/>
+                        <input className="recipeDelete" type="image" src="/assets/img/trashcan.png" />
+                    </form>
+                    <input className="recipeEdit" type="image" src="/assets/img/edit-icon.png" onClick={(e) => {createEditRecipeForm(props.csrf, recipe)}} />
+                    <br/>
+                </div>
             </div>
         );
     });
 
     return (
         <div className="recipeList">
-            {recipeNodes}
+            <div className="row wrap">
+                {recipeNodes}
+            </div>
         </div>
     );
 };
@@ -271,11 +283,25 @@ const createEditRecipeForm = (csrf, recipe) => {
         <EditRecipeForm csrf={csrf} recipe={recipe} />, document.querySelector("#content")
     );
 
+    if (document.getElementById("hamburgerIcon").style.marginRight === "240px")
+    {
+        closeNav();
+    }
+
     document.getElementById('typeSpan').style.display = 'none';
+    document.getElementById('typeSideNav').style.display = 'none';
 };
 
 // loads all recipes to the recipe list
 const loadRecipesFromServer = (csrf, type) => {
+    var element = document.getElementById('typeSpan');
+
+    if (typeof(element) != 'undefined' && element != null)
+    {
+        document.getElementById('typeSpan').style.display = 'block';
+        document.getElementById('typeSideNav').style.display = 'block';
+    }
+
     sendAjax('GET', '/getRecipes', null, (data) => {
         ReactDOM.render(
             <RecipeList recipes={data.recipes} csrf={csrf} selectedType={type} />, document.querySelector("#content")
@@ -297,12 +323,7 @@ const createRecipeBook = (csrf, type) => {
         <RecipeTypeSpan />, document.querySelector("#typeSpan")
     );
 
-    var element = document.getElementById('typeSpan');
-
-    if (typeof(element) != 'undefined' && element != null)
-    {
-        document.getElementById('typeSpan').style.display = 'block';
-    }
+    currentType = type;
 
     loadRecipesFromServer(csrf, type);
 };
@@ -313,7 +334,13 @@ const createRecipeForm = (csrf) => {
         <RecipeForm csrf={csrf} />, document.querySelector("#content")
     );
 
+    if (document.getElementById("hamburgerIcon").style.marginRight === "240px")
+    {
+        closeNav();
+    }
+
     document.getElementById('typeSpan').style.display = 'none';
+    document.getElementById('typeSideNav').style.display = 'none';
 };
 
 // creates the form for account data / password changes
@@ -322,7 +349,13 @@ const createAccountForm = (csrf, account) => {
         <AccountForm csrf={csrf} user={account} />, document.querySelector("#content")
     );
     
+    if (document.getElementById("hamburgerIcon").style.marginRight === "240px")
+    {
+        closeNav();
+    }
+
     document.getElementById('typeSpan').style.display = 'none';
+    document.getElementById('typeSideNav').style.display = 'none';
 };
 
 // sets up the events and page

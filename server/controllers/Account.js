@@ -63,17 +63,13 @@ const signup = (request, response) => {
   // secret key
   const secretKey = '6Lch6uwUAAAAAFwEKv2r8liv4g0PfN4Gk4pyaapZ';
 
-  // verification query
-  const query = JSON.stringify({
-    secret: secretKey,
-    response: req.body['g-recaptcha-response'],
-    remoteip: req.connection.remoteAddress,
-  });
-
-  const verifyURL = `https://google.com/recaptcha/api/siteverify?${query}`;
+  // create verification url
+  const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey 
+          + "&response=" + req.body['g-recaptcha-response'] 
+          + "&remoteip=" + req.connection.remoteAddress;
 
   // make a request to the verification url
-  const body = fetch(verifyURL).then((rs) => rs.json());
+  const body = fetch(verificationURL, { method: 'post' }).then((rs) => rs.json());
 
   // handle recaptcha error
   if (body.success !== undefined && !body.success) {

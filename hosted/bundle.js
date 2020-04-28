@@ -102,6 +102,8 @@ var RecipeForm = function RecipeForm(props) {
     }, "Breakfast"), /*#__PURE__*/React.createElement("option", {
       value: "Lunch"
     }, "Lunch"), /*#__PURE__*/React.createElement("option", {
+      value: "Dinner"
+    }, "Dinner"), /*#__PURE__*/React.createElement("option", {
       value: "Soups and Salads"
     }, "Soups and Salads"), /*#__PURE__*/React.createElement("option", {
       value: "Sauces and Dressings"
@@ -280,6 +282,13 @@ var RecipeTypeSideNav = function RecipeTypeSideNav(props) {
       className: "recipeFilter",
       type: "submit",
       onClick: function onClick(e) {
+        createRecipeBook(props.csrf, "Dinner");
+      },
+      value: "Dinner"
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "recipeFilter",
+      type: "submit",
+      onClick: function onClick(e) {
         createRecipeBook(props.csrf, "Soups and Salads");
       },
       value: "Soups and Salads"
@@ -405,6 +414,8 @@ var EditRecipeForm = function EditRecipeForm(props) {
     }, "Breakfast"), /*#__PURE__*/React.createElement("option", {
       value: "Lunch"
     }, "Lunch"), /*#__PURE__*/React.createElement("option", {
+      value: "Dinner"
+    }, "Dinner"), /*#__PURE__*/React.createElement("option", {
       value: "Soups and Salads"
     }, "Soups and Salads"), /*#__PURE__*/React.createElement("option", {
       value: "Sauces and Dressings"

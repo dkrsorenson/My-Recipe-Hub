@@ -88,6 +88,7 @@ const RecipeForm = (props) => {
                 <option value="Side Dishes">Side Dishes</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
                 <option value="Soups and Salads">Soups and Salads</option>
                 <option value="Sauces and Dressings">Sauces and Dressings</option>
                 <option value="Meats">Meats</option>
@@ -186,6 +187,7 @@ const RecipeTypeSideNav = function(props) {
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Side Dishes")}} value="Side Dishes"/>
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Breakfast")}} value="Breakfast"/>
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Lunch")}} value="Lunch"/>
+            <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Dinner")}} value="Dinner"/>
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Soups and Salads")}} value="Soups and Salads"/>
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Sauces and Dressings")}} value="Sauces and Dressings"/>
             <input className="recipeFilter" type="submit" onClick={(e) => {createRecipeBook(props.csrf, "Meats")}} value="Meats"/>
@@ -238,6 +240,7 @@ const EditRecipeForm = (props) => {
                 <option value="Side Dishes">Side Dishes</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
                 <option value="Soups and Salads">Soups and Salads</option>
                 <option value="Sauces and Dressings">Sauces and Dressings</option>
                 <option value="Meats">Meats</option>

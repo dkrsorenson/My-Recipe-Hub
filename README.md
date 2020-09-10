@@ -32,7 +32,7 @@ or account information, and to delete data.
 for the main app page has allowed me to easily switch out the content section to display
 different React components based on the user selections.
 
-###Resources:
+### Resources:
 - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sidenav_fixed
 - https://www.w3schools.com/css/tryit.asp?filename=trycss_forms
 - https://codepen.io/vikvega/pen/XQRMNj

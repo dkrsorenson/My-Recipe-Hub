@@ -1,6 +1,6 @@
 # React MVC Project for Rich Media II
 
-Name: Dakota Sorenson
+Name: Dakota Sorenson\
 Project 2: My Recipe Hub
 
 ### Purpose:

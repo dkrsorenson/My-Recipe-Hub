@@ -12,25 +12,21 @@ recipes online.
 - Add recipes to your recipe book
 - Edit and remove recipes
 - Filter recipes by a specific type (click hamburger icon on the right side)
-- Create an account, log in, change password
-- Recaptcha form to my sign-up page using . The user is required to complete
-the recaptcha in order to create an account.
+- Create an account, log in, and change passwords.
+- Recaptcha form on the signup page. The user is required to complete the recaptcha in order to create an account.
 
 ### React:
 - React is being used to show the form for adding recipes, the recipe book page to display
 recipes, the form to edit recipes, the sidebar navigation (on the right side) to filter
 recipes, and the success and error message pop ups.
-- It is also being used for the account/login/sign up pages.
+- It is also being used for the account, login, and sign up pages.
 
 ### MongoDB:
-- I am storing account information and recipe information in Mongo.
-- I use Mongo to retrieve a user’s recipes or account information, to update recipes
-or account information, and to delete data.
+- I am storing account information and recipe information in MongoDB.
+- I use MongoDB to retrieve a user’s recipes or account information, to update recipes or account information, and to delete data.
 
 ### Handlebars:
-- I am using handlebars for the login page and for the main app page. Using handlebars
-for the main app page has allowed me to easily switch out the content section to display
-different React components based on the user selections.
+- I am using handlebars for the login page and for the main app page. Using handlebars for the main app page has allowed me to easily switch out the content section to display different React components based on the user selections.
 
 ### Resources:
 - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sidenav_fixed
